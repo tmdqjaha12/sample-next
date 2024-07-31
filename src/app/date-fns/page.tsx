@@ -5,7 +5,7 @@ const DateFnsPage = () => {
   const formattedDate = format(date, "yyyy-MM-dd");
 
   return (
-    <div className=" text-black">
+    <div className="relative w-64 text-black">
       <div>
         <h1 className="text-2xl font-bold mb-4 ">date-fns 테스트 페이지</h1>
         <p>Formatted Date: {formattedDate}</p>

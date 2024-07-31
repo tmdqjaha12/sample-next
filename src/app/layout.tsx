@@ -26,9 +26,7 @@ const RootLayout: React.FC<LayoutProps> = ({ children }) => {
               </ul>
             </nav>
           </header>
-          <main className="flex-grow flex justify-center items-center">
-            <div className="relative w-64">{children}</div>
-          </main>
+          <main className="flex-grow flex justify-center items-center">{children}</main>
           <footer className="p-4 bg-opacity-40 bg-gray-800 text-center">
             <p>&copy; 2024 Task Selector. All rights reserved.</p>
           </footer>

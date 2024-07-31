@@ -17,6 +17,10 @@ const HomePage = () => {
         label: "pdf-format",
         path: "/pdf-format",
       },
+      {
+        label: "에프엔손해사정",
+        path: "/fn-ins",
+      },
     ],
     []
   );
