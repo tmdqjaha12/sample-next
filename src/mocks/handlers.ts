@@ -1,3 +1,5 @@
+// https://mswjs.io/
+
 import { faker } from "@faker-js/faker";
 import { http, HttpResponse, StrictResponse } from "msw";
 
