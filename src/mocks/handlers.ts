@@ -19,6 +19,24 @@ const User = [
 const Posts = [];
 
 export const handlers = [
+  http.get("/api/test/get", ({ request }) => {
+    return HttpResponse.text(JSON.stringify("user_exists"), {
+      status: 403,
+    });
+  }),
+  http.post("/api/test/post", () => {
+    console.log("로그인");
+    return HttpResponse.json(
+      {},
+      {
+        headers: {
+          "Set-Cookie": "connect.sid=msw-cookie;HttpOnly;Path=/",
+        },
+      }
+    );
+  }),
+
+  //* example *//
   http.post("/api/login", () => {
     console.log("로그인");
     return HttpResponse.json(User[1], {
