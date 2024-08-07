@@ -567,6 +567,17 @@ const getTodayDayOfWeek = () => {
 
 //!--------------------------------------------------------------------
 /**
+ ** 주말여부 확인
+ * - 주말: true
+ */
+const isWeekend = () => {
+  var today = new Date();
+  var dayOfWeek = today.getDay();
+  return dayOfWeek === 0 || dayOfWeek === 6; // 0은 일요일, 6은 토요일을 나타냅니다.
+};
+
+//!--------------------------------------------------------------------
+/**
  *
  ** base64 window.btoa(암호화)
  */
@@ -781,13 +792,13 @@ const shuffleArray = (array: any[]) => {
 /**
  ** 숫자가 십의 자리 이상이면 그대로 반환하고, 일의 자리 숫자라면 앞에 0을 붙여서 두 자리 형식으로 반환합니다.
  */
-function formatToTwoDigits(num: number) {
+const formatToTwoDigits = (num: number) => {
   if (num >= 10) {
     return num.toString();
   } else {
     return "0" + num.toString();
   }
-}
+};
 
 //!--------------------------------------------------------------------
 /**
@@ -832,11 +843,265 @@ const calculateDateDifference = (date1: string | Date, date2: string | Date) => 
  * @param {string | Date} date2 - 두 번째 날짜 (문자열 또는 Date 객체)
  * @returns {boolean} - 오늘이 두 날짜 사이에 포함되면 true, 그렇지 않으면 false
  */
-function isTodayBetweenDates(date1: string | Date, date2: string | Date): boolean {
+const isTodayBetweenDates = (date1: string | Date, date2: string | Date) => {
   const today = new Date();
   const startDate = new Date(date1);
   const endDate = new Date(date2);
 
   // 오늘이 startDate와 endDate 사이에 있는지 확인
   return startDate <= today && today <= endDate;
+};
+
+//!--------------------------------------------------------------------
+/**
+ ** 할인율 계산
+ */
+const calcDiscountPercentage = (originalPrice: number, discountedPrice: number) => {
+  if (originalPrice === 0) return 0;
+  return Math.floor(((originalPrice - discountedPrice) / originalPrice) * 100);
+};
+
+//!--------------------------------------------------------------------
+/**
+ ** 날짜 계산 M/DD
+ * - fill.month(default:false): 1의자리 0 채우기
+ * - fill.day(default:false): 1의자리 0 채우기
+ */
+const calcMDD = (date: string | Date, fill: { month: boolean; day: boolean } = { month: false, day: false }) => {
+  const d = new Date(date);
+  let month: string | number = d.getMonth() + 1; // 월은 0부터 시작하므로 +1
+  let day: string | number = d.getDate();
+
+  if (fill.month) {
+    month = formatToTwoDigits(month);
+  }
+  if (fill.day) {
+    day = formatToTwoDigits(day);
+  }
+
+  return `${month}/${day}`;
+};
+//!--------------------------------------------------------------------
+/**
+ ** 오전 오후 시간 계산
+ */
+const calcAH = (date: string | Date) => {
+  const d = new Date(date);
+  const hours = d.getHours();
+
+  const period = hours >= 12 ? "오후" : "오전";
+  const hourIn12Format = hours % 12 || 12; // 12시를 0으로 변환 방지
+
+  return `${period} ${hourIn12Format}시`;
+};
+
+//!--------------------------------------------------------------------
+/**
+ ** 오전 오후 시간 분 계산
+ */
+const calcAHM = (date: string | Date) => {
+  const d = new Date(date);
+  const hours = d.getHours();
+  const minutes = d.getMinutes();
+
+  const period = hours >= 12 ? "오후" : "오전";
+  const hourIn12Format = hours % 12 || 12; // 12시를 0으로 변환 방지
+
+  return `${period} ${hourIn12Format}시 ${minutes}분`;
+};
+
+//!--------------------------------------------------------------------
+/**
+ ** 현재 시간과, 미래의 특정 시간 사이의 (시간, 분, 초) 차이
+ * @param {string} targetTime - 목표 시간 (ISO 8601 형식의 날짜 문자열)
+ * @param {Date} currentTime - 현재 시간
+ * @returns {Object} - 남은 시간
+ */
+interface RemainingTime {
+  isPassedTime: boolean;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
+const remainingTime = (targetTime: string | Date, currentTime: string | Date): RemainingTime => {
+  const targetDate = new Date(targetTime);
+  const currentDate = new Date(currentTime);
+
+  // 목표 시간이 이미 지났는지 확인
+  if (targetDate <= currentDate) {
+    return {
+      isPassedTime: true,
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
+
+  // 남은 시간 계산
+  const diffInMillis = targetDate.getTime() - currentDate.getTime();
+
+  const seconds = Math.floor(diffInMillis / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  return {
+    isPassedTime: false,
+    days: days,
+    hours: hours % 24,
+    minutes: minutes % 60,
+    seconds: seconds % 60,
+  };
+};
+
+//!--------------------------------------------------------------------
+interface TimeAgoResult {
+  timeAgo: string;
+}
+/**
+ * @param {string} inputTime - 입력 시간 (ISO 8601 형식의 날짜 문자열)
+ * @returns {TimeAgoResult} - 상대적인 시간 문자열
+ */
+const timeAgo = (inputTime: string): TimeAgoResult => {
+  const inputDate = new Date(inputTime);
+  const now = new Date();
+
+  // 입력 시간과 현재 시간 사이의 차이를 밀리초 단위로 계산
+  const diffInMillis = now.getTime() - inputDate.getTime();
+
+  // 차이를 초, 분, 시간, 일, 월, 년으로 변환
+  const seconds = Math.floor(diffInMillis / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const months = Math.floor(days / 30); // 대략적인 월 계산
+  const years = Math.floor(days / 365); // 대략적인 년 계산
+
+  // 차이에 따라 적절한 문자열 반환
+  if (seconds < 60) {
+    return { timeAgo: `${seconds}초 전` };
+  } else if (minutes < 60) {
+    return { timeAgo: `${minutes}분 전` };
+  } else if (hours < 24) {
+    return { timeAgo: `${hours}시간 전` };
+  } else if (days < 30) {
+    return { timeAgo: `${days}일 전` };
+  } else if (months < 12) {
+    return { timeAgo: `${months}개월 전` };
+  } else {
+    return { timeAgo: `${years}년 전` };
+  }
+};
+
+//!--------------------------------------------------------------------
+/**
+ ** HTML 문자열에서 태그를 제외한 순수 텍스트의 길이를 계산
+ * @param {string} htmlString - HTML 형식의 문자열
+ * @returns {number} - 순수 텍스트의 길이
+ */
+const getTextLength = (htmlString: string) => {
+  // HTML 태그를 제거하기 위한 정규 표현식
+  const textOnly = htmlString.replace(/<[^>]*>/g, "");
+  // 텍스트의 길이를 반환
+  return textOnly.length;
+};
+
+//!--------------------------------------------------------------------
+interface DDayResult {
+  days: number;
+  isPassedTime: boolean;
+}
+
+/**
+ * 주어진 목표 날짜까지 남은 D-Day를 계산합니다.
+ * @param {string} targetDate - 목표 날짜 (ISO 8601 형식의 날짜 문자열)
+ * @param {Date} [currentDate] - 현재 날짜 (기본값은 현재 시스템 시간)
+ * @returns {DDayResult} - D-Day 결과 객체
+ * 1) targetDate가 미래 날짜일 경우, days는 목표 날짜까지 남은 일수를 반환합니다.
+ * 2) targetDate가 현재 날짜와 같거나 이전 날짜일 경우, days는 0으로 설정되고 isPassedTime은 true로 설정됩니다.
+ */
+const calculateDDay = (targetDate: string, currentDate: Date = new Date()): DDayResult => {
+  const target = new Date(targetDate);
+  const now = currentDate;
+
+  // 목표 날짜가 현재 날짜보다 이전인지 확인
+  if (target <= now) {
+    return {
+      days: 0,
+      isPassedTime: true,
+    };
+  }
+
+  // 목표 날짜와 현재 날짜 사이의 차이를 계산 (밀리초 단위)
+  const diffInMillis = target.getTime() - now.getTime();
+
+  // 밀리초를 일 단위로 변환
+  const days = Math.ceil(diffInMillis / (1000 * 60 * 60 * 24));
+
+  return {
+    days: days,
+    isPassedTime: false,
+  };
+};
+
+export {
+  calcAH,
+  calcAHM,
+  calcDiscountPercentage,
+  calcMDD,
+  calculateDDay,
+  calculateDateDifference,
+  callNumber,
+  decodeBase64,
+  decodeHTMLEntities,
+  delayExecution,
+  delayThrottleExecution,
+  encodeBase64,
+  extractCleanedText,
+  formatAddXString,
+  formatToTwoDigits,
+  geKoreanNumber,
+  generateRandomNumberPostfix,
+  generateRandomString,
+  generateRandomStringPostfix,
+  getCookie,
+  getDeviceInfo,
+  getDotNumString,
+  getElementSizeById,
+  getFromLocalStorage,
+  getFromSessionStorage,
+  getHeaderData,
+  getJSONParam,
+  getParams,
+  getRandomNumber,
+  getTextLength,
+  getTodayDayOfWeek,
+  howManyThread,
+  ignoreParamsQueryString,
+  inOnline,
+  isEmpty,
+  isJSON,
+  isTodayBetweenDates,
+  isWeekend,
+  periodicExecution,
+  processHTMLString,
+  remainingTime,
+  removeFromLocalStorage,
+  removeFromSessionStorage,
+  saveToLocalStorage,
+  saveToSessionStorage,
+  scriptImportRecursive,
+  setCookie,
+  setFontSize,
+  shuffleArray,
+  throttleExecution,
+  timeAgo,
+  updateLocalStorage,
+  updatePseudoElementStyle,
+  updateSessionStorage,
+  whatLanguage,
+  whatOrientation,
+  wrapUrlWithATag,
+};

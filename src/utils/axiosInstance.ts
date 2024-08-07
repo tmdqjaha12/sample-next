@@ -43,10 +43,16 @@ instance.interceptors.response.use(
     return response.data;
   },
   (error: AxiosError) => {
-    // console.error(error.config);
-    // console.error(error.message);
     if (error.response) {
+      // 백엔드에서 응답한 HTTP 상태 코드가 4xx나 5xx인 경우
+      // 요청url: error.response.config.url
       // console.error(error.response.data);
+    } else if (error.request) {
+      // 요청을 보낸 후 응답을 받지 못한 경우
+      console.error("Error in Axios: Network Error");
+    } else {
+      // 요청을 보내기 전에 문제가 발생한 경우
+      console.error("Error in Axios: Request Error");
     }
     return Promise.reject(error);
   }
