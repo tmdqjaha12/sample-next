@@ -1,6 +1,7 @@
 "use client";
 
 import Input from "@/app/_components/Input";
+import { email } from "@/utils/input.validators";
 import React, { useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { FaSearchMinus, FaSearchPlus } from "react-icons/fa";
@@ -64,12 +65,16 @@ const PdfPage: React.FC = () => {
             <Input
               type="text"
               register={register("name", {
-                required: "Name is required",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Invalid email address",
-                },
+                validate: email,
+                required: "필수 항목입니다.",
               })}
+              // register={register("name", {
+              //   required: "Name is required",
+              //   pattern: {
+              //     value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              //     message: "Invalid email address",
+              //   },
+              // })}
               params={{
                 className: "border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500",
                 placeholder: "Enter your name",
