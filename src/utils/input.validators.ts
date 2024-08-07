@@ -77,7 +77,7 @@ const numOnly = (value: string) => {
 
 /**
  ** 설정숫자범위 입력값 체크
- * min <= value <= max
+ * - min <= value <= max
  */
 const betweenInteger = (min: number, max: number) => (value: number) => {
   if (min <= value && value <= max) return null;
@@ -85,8 +85,8 @@ const betweenInteger = (min: number, max: number) => (value: number) => {
 };
 
 /**
- * 설정숫자범위 입력값 체크
- * min <= value
+ ** 설정숫자범위 입력값 체크
+ * - min <= value
  */
 const minInteger = (min: number) => (value: number) => {
   if (min <= value) return null;
@@ -94,8 +94,8 @@ const minInteger = (min: number) => (value: number) => {
 };
 
 /**
- * 설정숫자범위 입력값 체크
- * value <= max
+ ** 설정숫자범위 입력값 체크
+ * - value <= max
  */
 const maxInteger = (max: number) => (value: number) => {
   if (value <= max) return null;
@@ -118,7 +118,7 @@ const minLength = (min: number) => (value: string) => {
 
 /**
  ** 설정날짜범위 입력값 체크
- * min <= value
+ * - min <= value
  */
 const maxDate = (min: Date) => (value: Date) => {
   if (min <= value) return null;
@@ -127,7 +127,7 @@ const maxDate = (min: Date) => (value: Date) => {
 
 /**
  ** 설정날짜범위 입력값 체크
- * value <= max
+ * - value <= max
  */
 const minDate = (max: Date) => (value: Date) => {
   if (value <= max) return null;
@@ -136,7 +136,7 @@ const minDate = (max: Date) => (value: Date) => {
 
 /**
  ** 비밀번호 패턴 체크
- * 알파벳, 숫자, 특수문자, length
+ * - 알파벳, 숫자, 특수문자, length
  */
 const password_level3 = (min: number, max: number) => (value: string) => {
   const regExp = new RegExp(`(?=.*\\d)(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&'*_+?\\\\-]).{${min},${max}}`, "");
@@ -146,7 +146,7 @@ const password_level3 = (min: number, max: number) => (value: string) => {
 
 /**
  ** 대소문자, 숫자 조합 패턴
- * 알파벳, 숫자, length
+ * - 알파벳, 숫자, length
  */
 const password_level2 = (min: number, max: number) => (value: string) => {
   const regExp = new RegExp(`(?=.*\\d)(?=.*[0-9])(?=.*[a-zA-Z]).{${min},${max}}`, "");
@@ -155,8 +155,30 @@ const password_level2 = (min: number, max: number) => (value: string) => {
 
 /**
  ** 비밀번호 동일성 체크
- * value1 === value2
+ * - value1 === value2
  */
 const compare_password = (value1: string) => (value2: string) => {
   return value1 === value2 ? null : "비밀번호가 정확하지 않습니다.";
+};
+
+export {
+  betweenInteger,
+  compare_password,
+  email,
+  hyphenPhone,
+  ip,
+  ip_or_url,
+  maxDate,
+  maxInteger,
+  maxLength,
+  minDate,
+  minInteger,
+  minLength,
+  numOnly,
+  password_level2,
+  password_level3,
+  phone,
+  phone_or_hyphenPhone,
+  required,
+  url,
 };
