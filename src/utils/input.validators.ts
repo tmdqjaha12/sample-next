@@ -1,3 +1,11 @@
+/***
+ ** react-hook-form 사용예시
+ * register={register("name", {
+      validate: email,
+      required: "필수 항목입니다.",
+    })}
+ */
+
 /**
  ** 입력값의 필수값 체크
  */
