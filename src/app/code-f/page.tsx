@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 interface FormData {
   organization: string;
@@ -104,10 +104,6 @@ const PageComponent = () => {
         console.error("testReq: ", err);
       });
   };
-
-  useEffect(() => {
-    token();
-  }, []);
 
   return (
     <div className="w-full h-full mx-16 text-black my-8">
@@ -304,7 +300,7 @@ const PageComponent = () => {
             <label className="block text-gray-700">client_id</label>
             <input
               type="text"
-              name="startDate"
+              name="client_id"
               value={formData.client_id}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -315,7 +311,7 @@ const PageComponent = () => {
             <label className="block text-gray-700">client_secret</label>
             <input
               type="text"
-              name="startDate"
+              name="client_secret"
               value={formData.client_secret}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded mt-1"
