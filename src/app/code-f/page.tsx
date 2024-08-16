@@ -64,10 +64,21 @@ const PageComponent = () => {
 
   const token = () => {
     axios
-      .post("https://development.codef.io", {
-        client_id: formData.client_id,
-        client_secret: formData.client_secret,
-      })
+      // .post("https://development.codef.io", {
+      .post(
+        "https://toauth.codef.io/oauth/token",
+        {
+          grant_type: "client_credentials",
+          client_id: formData.client_id,
+          client_secret: formData.client_secret,
+          scope: "read", // 필요한 스코프 추가 (옵션)
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
       .then((res) => {
         console.log("token: ", res.data);
       })
