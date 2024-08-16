@@ -56,6 +56,12 @@ const PageComponent = () => {
     testReq();
   };
 
+  const handleTokenSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    // 폼 제출 시 처리 로직 추가
+    token();
+  };
+
   const token = () => {
     axios
       .post("https://development.codef.io", {
@@ -295,7 +301,7 @@ const PageComponent = () => {
 
       <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg mt-10">
         <h2 className="text-2xl font-bold mb-4">token Form 입력</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleTokenSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700">client_id</label>
             <input
