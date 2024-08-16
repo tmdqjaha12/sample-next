@@ -59,8 +59,8 @@ const PageComponent = () => {
   const token = () => {
     axios
       .post("https://development.codef.io", {
-        client_id: "1c6eb5ea-4355-4284-b181-b3aa21c34bd2",
-        client_secret: "dd2bb2e7-6e22-428a-a897-7ec88d839c88",
+        client_id: formData.client_id,
+        client_secret: formData.client_secret,
       })
       .then((res) => {
         console.log("token: ", res.data);
