@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import qs from "qs";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 interface FormData {
@@ -67,12 +68,12 @@ const PageComponent = () => {
       // .post("https://development.codef.io", {
       .post(
         "https://toauth.codef.io/oauth/token",
-        {
+        qs.stringify({
           grant_type: "client_credentials",
           client_id: formData.client_id,
           client_secret: formData.client_secret,
           scope: "read", // 필요한 스코프 추가 (옵션)
-        },
+        }),
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
