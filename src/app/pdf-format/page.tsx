@@ -23,7 +23,7 @@ const PdfPage: React.FC = () => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
 
-  const handleGeneratePdf: SubmitHandler<FormValues> = async (data) => {
+  const handleGeneratePdf: SubmitHandler<FormValues> = async () => {
     const response = await fetch("/api/generate-pdf", {
       method: "POST",
       headers: {

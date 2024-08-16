@@ -1008,12 +1008,10 @@ const getTextLength = (htmlString: string) => {
   return textOnly.length;
 };
 
-//!--------------------------------------------------------------------
 interface DDayResult {
   days: number;
   isPassedTime: boolean;
 }
-
 /**
  * 주어진 목표 날짜까지 남은 D-Day를 계산합니다.
  * @param {string} targetDate - 목표 날짜 (ISO 8601 형식의 날짜 문자열)
@@ -1046,7 +1044,49 @@ const calculateDDay = (targetDate: string, currentDate: Date = new Date()): DDay
   };
 };
 
+//!--------------------------------------------------------------------
+/**
+ ** 바코드 하이픈 추가
+ */
+const addHypenBarcode = (value: string) => {
+  if (!value || value.length === 0) return;
+
+  if (value.length === 9) {
+    return formatAddXString(value, "333", "-");
+  }
+  if (value.length === 10) {
+    return formatAddXString(value, "334", "-");
+  }
+  if (value.length === 11) {
+    return formatAddXString(value, "344", "-");
+  }
+  if (value.length === 12) {
+    return formatAddXString(value, "444", "-");
+  }
+  if (value.length === 13) {
+    return formatAddXString(value, "445", "-");
+  }
+  if (value.length === 14) {
+    return formatAddXString(value, "455", "-");
+  }
+  if (value.length === 15) {
+    return formatAddXString(value, "555", "-");
+  }
+  if (value.length === 16) {
+    return formatAddXString(value, "4444", "-");
+  }
+  if (value.length === 17) {
+    return formatAddXString(value, "4445", "-");
+  }
+  if (value.length === 18) {
+    return formatAddXString(value, "4455", "-");
+  }
+
+  return value;
+};
+
 export {
+  addHypenBarcode,
   calcAH,
   calcAHM,
   calcDiscountPercentage,

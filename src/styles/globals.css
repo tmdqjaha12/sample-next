@@ -1,8 +1,11 @@
-/** tailwind css의 기본 스타일을 포함 (브라우저 기본 스타일을 초기화하는 스타일과 기본적인 타이포그래피, 폼 요소 스타일 등) **/
-/** ailwind의 컴포넌트 스타일을 포함 (버튼, 카드, 알림 등) **/
-/** Tailwind의 유틸리티 클래스를 포함 (p-4, ext-center 등) **/
+/* 추가적인 스타일 시트 임포트 */
+/* @import './reset.css';
+@import './style.css'; */
+/** Tailwind CSS의 기본 스타일을 포함 (브라우저 기본 스타일을 초기화하는 스타일과 기본적인 타이포그래피, 폼 요소 스타일 등) **/
 @tailwind base;
+/** Tailwind의 컴포넌트 스타일을 포함 (버튼, 카드, 알림 등) **/
 @tailwind components;
+/** Tailwind의 유틸리티 클래스를 포함 (p-4, text-center 등) **/
 @tailwind utilities;
 
 :root {
@@ -31,7 +34,3 @@ body {
     text-wrap: balance;
   }
 }
-
-/* 추가적인 스타일 시트 임포트 */
-@import './reset.css';
-@import './style.css';

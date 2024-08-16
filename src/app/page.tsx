@@ -18,8 +18,16 @@ const HomePage = () => {
         path: "/pdf-format",
       },
       {
-        label: "에프엔손해사정",
+        label: "search-area",
         path: "/fn-ins",
+      },
+      {
+        label: "burn-scroll",
+        path: "/burn-scroll",
+      },
+      {
+        label: "code-f",
+        path: "/code-f",
       },
     ],
     []
